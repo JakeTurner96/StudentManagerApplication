@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student {
+public class Student{
 
-    private int studentID;
+    private Integer studentID;
     private String courseTitle;
     private String name;
     private LocalDate dateOfBirth;
@@ -21,8 +21,8 @@ public class Student {
         modules = new ArrayList<>();
     }
 
-    public int getStudentID() {
-        return studentID;
+    public Integer getStudentID() {
+        return this.studentID;
     }
 
     public void setStudentID(int studentID) {
@@ -60,4 +60,10 @@ public class Student {
     public void removeModule(Module module) {
         modules.remove(module);
     }
+
+    public List<Module> getModuleList(){
+        return modules;
+    }
+
+
 }

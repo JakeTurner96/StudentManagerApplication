@@ -16,10 +16,13 @@ public class StudentService {
 
     public StudentService(){
         studentList = new ArrayList<>();
+        Module testModule = new Module(10, "APIs", "80%", "20%");
+        Student testStudent = new Student(1, "Computer Science", "Jake Turner", LocalDate.of(1996, 8, 16));
+        testStudent.setModule(testModule);
 
-        studentList.add(new Student(1, "Computer Science", "Jake Turner", LocalDate.of(1996, 8, 16)));
-        studentList.add(new Student(5, "Veterinary Medicine", "Hannah Tilbury", LocalDate.of(1995, 9, 11)));
-        studentList.add(new Student(19, "Business Management", "Adam Robinson", LocalDate.of(1997, 5, 20)));
+        studentList.add(testStudent);
+        studentList.add(new Student(2, "Veterinary Medicine", "Hannah Tilbury", LocalDate.of(1995, 9, 11)));
+        studentList.add(new Student(3, "Business Management", "Adam Robinson", LocalDate.of(1997, 5, 20)));
     }
 
     public void addStudent(Student student) throws StudentAlreadyExistsException {
@@ -42,17 +45,17 @@ public class StudentService {
         }
     }
 
-    public void updateStudent(Student old, Student newS) throws StudentNotFoundException {
-        if (!studentExists(old)) {
+    public void updateStudent(Student oldStudent, Student newStudent) throws StudentNotFoundException {
+        if (!studentExists(oldStudent)) {
             throw new StudentNotFoundException("Student not found");
         } else {
-            removeStudent(old);
-            addStudent(newS);
+            removeStudent(oldStudent);
+            addStudent(newStudent);
         }
     }
 
-    public Student getStudent(int ID){
-        return studentList.stream().filter(student -> student.getStudentID() == ID).findFirst().get();
+    public Student getStudent(Integer ID){
+        return studentList.stream().filter(student -> student.getStudentID().equals(ID)).findFirst().get();
     }
 
     public void assignModule(Student student, Module module) throws StudentNotFoundException {
