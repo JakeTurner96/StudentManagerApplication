@@ -33,10 +33,6 @@ public class StudentService {
         }
     }
 
-    private boolean studentExists(Student student) {
-        return studentList.contains(student);
-    }
-
     public void removeStudent(Student student) throws StudentNotFoundException {
         if (!studentExists(student)) {
             throw new StudentNotFoundException("Student not found");
@@ -54,8 +50,16 @@ public class StudentService {
         }
     }
 
+    private boolean studentExists(Student student) {
+        return studentList.contains(student);
+    }
+
     public Student getStudent(Integer ID){
         return studentList.stream().filter(student -> student.getStudentID().equals(ID)).findFirst().get();
+    }
+
+    public List<Student> getStudentList(){
+        return studentList;
     }
 
     public void assignModule(Student student, Module module) throws StudentNotFoundException {
@@ -73,9 +77,4 @@ public class StudentService {
             student.removeModule(module);
         }
     }
-
-    public List<Student> getStudentList()    {
-        return studentList;
-    }
-
 }

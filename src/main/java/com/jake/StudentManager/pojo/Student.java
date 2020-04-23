@@ -25,32 +25,16 @@ public class Student{
         return this.studentID;
     }
 
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
-    }
-
     public String getCourseTitle() {
         return courseTitle;
-    }
-
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public void setModule(Module module) {
@@ -64,6 +48,4 @@ public class Student{
     public List<Module> getModuleList(){
         return modules;
     }
-
-
 }
