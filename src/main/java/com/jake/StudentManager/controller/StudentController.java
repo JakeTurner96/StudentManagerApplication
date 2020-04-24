@@ -2,6 +2,7 @@ package com.jake.StudentManager.controller;
 
 import com.jake.StudentManager.pojo.Module;
 import com.jake.StudentManager.pojo.Student;
+import com.jake.StudentManager.services.ModuleService;
 import com.jake.StudentManager.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,8 @@ public class  StudentController {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private ModuleService moduleService;
 
     @RequestMapping("/students")
     public List<Student> getAllStudents(){
@@ -38,13 +41,22 @@ public class  StudentController {
         studentService.removeStudent(studentService.getStudent(studentID));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/student/module/{studentID}")
+    @RequestMapping(method = RequestMethod.POST, value = "/student/module/{studentID}")
     public void assignModule(@RequestBody Module module, @PathVariable int studentID){
-        studentService.getStudent(studentID).setModule(module);
+        moduleService.assignModule(studentService.getStudent(studentID), module);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/student/module/{studentID}")
-    public void deleteModule(@PathVariable int studentID, int moduleID){
+    @RequestMapping(method = RequestMethod.PUT, value = "/student/{studentID}/module/{moduleID}")
+    public void updateModule(@RequestBody Module newModule, @PathVariable int studentID, @PathVariable int moduleID){
+        Student studentTarget = studentService.getStudent(studentID);
+        Module moduleTarget = moduleService.getModule(studentTarget, moduleID);
+        moduleService.updateModule(studentTarget, moduleTarget, newModule);
+    }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/student/{studentID}/module/{moduleID}")
+    public void deleteModule(@PathVariable int studentID, @PathVariable int moduleID){
+        Student studentTarget = studentService.getStudent(studentID);
+        Module moduleTarget = moduleService.getModule(studentTarget, moduleID);
+        moduleService.removeModule(studentTarget, moduleTarget);
     }
 }

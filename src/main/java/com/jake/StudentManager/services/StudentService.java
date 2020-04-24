@@ -18,7 +18,7 @@ public class StudentService {
         studentList = new ArrayList<>();
         Module testModule = new Module(10, "APIs", "80%", "20%");
         Student testStudent = new Student(1, "Computer Science", "Jake Turner", LocalDate.of(1996, 8, 16));
-        testStudent.setModule(testModule);
+        testStudent.getModuleList().add(testModule);
 
         studentList.add(testStudent);
         studentList.add(new Student(2, "Veterinary Medicine", "Hannah Tilbury", LocalDate.of(1995, 9, 11)));
@@ -50,7 +50,7 @@ public class StudentService {
         }
     }
 
-    private boolean studentExists(Student student) {
+    public boolean studentExists(Student student) {
         return studentList.contains(student);
     }
 
@@ -60,21 +60,5 @@ public class StudentService {
 
     public List<Student> getStudentList(){
         return studentList;
-    }
-
-    public void assignModule(Student student, Module module) throws StudentNotFoundException {
-        if (!studentExists(student)) {
-            throw new StudentNotFoundException("Student not found");
-        } else {
-            student.setModule(module);
-        }
-    }
-
-    public void removeModuleAssignment(Student student, Module module) throws StudentNotFoundException {
-        if (!studentExists(student)) {
-            throw new StudentNotFoundException("Student not found");
-        } else {
-            student.removeModule(module);
-        }
     }
 }

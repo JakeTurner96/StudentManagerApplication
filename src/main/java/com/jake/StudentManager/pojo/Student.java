@@ -12,7 +12,7 @@ public class Student{
     private LocalDate dateOfBirth;
     private List<Module> modules;
 
-    public Student(int studentID, String courseTitle, String name, LocalDate dateOfBirth) {
+    public Student(Integer studentID, String courseTitle, String name, LocalDate dateOfBirth) {
         super();
         this.studentID = studentID;
         this.courseTitle = courseTitle;
@@ -35,14 +35,6 @@ public class Student{
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
-    }
-
-    public void setModule(Module module) {
-        this.modules.add(module);
-    }
-
-    public void removeModule(Module module) {
-        modules.remove(module);
     }
 
     public List<Module> getModuleList(){

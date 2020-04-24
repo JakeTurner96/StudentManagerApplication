@@ -2,19 +2,19 @@ package com.jake.StudentManager.pojo;
 
 public class Module {
 
-    private int moduleID;
+    private Integer moduleID;
     private String moduleTitle;
     private String courseworkWeight;
     private String examWeight;
 
-    public Module(int moduleID, String moduleTitle, String courseworkWeight, String examWeight) {
+    public Module(Integer moduleID, String moduleTitle, String courseworkWeight, String examWeight) {
         this.moduleID = moduleID;
         this.moduleTitle = moduleTitle;
         this.courseworkWeight = courseworkWeight;
         this.examWeight = examWeight;
     }
 
-    public int getModuleID() {
+    public Integer getModuleID() {
         return moduleID;
     }
 
