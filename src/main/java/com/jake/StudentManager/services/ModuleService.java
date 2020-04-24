@@ -12,11 +12,13 @@ public class ModuleService {
     @Autowired
     StudentService studentService;
 
+    public ModuleService(){}
+
     public void assignModule(Student student, Module module) throws StudentNotFoundException{
         if(!studentService.studentExists(student)){
            throw new StudentNotFoundException("Student not found");
         }else{
-            student.getModuleList().add(module);
+           studentService.getStudent(student.getStudentID()).getModuleList().add(module);
         }
     }
 
@@ -44,4 +46,5 @@ public class ModuleService {
     public Module getModule(Student student, Integer moduleID){
         return student.getModuleList().stream().filter(module -> module.getModuleID().equals(moduleID)).findFirst().get();
     }
+
 }

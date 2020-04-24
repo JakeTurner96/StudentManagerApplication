@@ -1,24 +1,29 @@
 package com.jake.StudentManager.pojo;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Student{
 
+    @Id
     private Integer studentID;
     private String courseTitle;
     private String name;
     private LocalDate dateOfBirth;
+    @Embedded
+    @ElementCollection
     private List<Module> modules;
 
-    public Student(Integer studentID, String courseTitle, String name, LocalDate dateOfBirth) {
+    protected Student(){}
+
+    public Student( Integer studentID, String courseTitle, String name, LocalDate dateOfBirth) {
         super();
         this.studentID = studentID;
         this.courseTitle = courseTitle;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
-        modules = new ArrayList<>();
     }
 
     public Integer getStudentID() {
@@ -39,5 +44,15 @@ public class Student{
 
     public List<Module> getModuleList(){
         return modules;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentID=" + studentID +
+                ", courseTitle='" + courseTitle + '\'' +
+                ", name='" + name + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }
