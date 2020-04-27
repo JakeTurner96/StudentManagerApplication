@@ -1,15 +1,18 @@
 package com.jake.StudentManager.pojo;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
-@Entity
-public class Module {
+@Embeddable
+public class Module{
 
-    @Id
+    @NotNull
     private Integer moduleID;
     private String moduleTitle;
     private String courseworkWeight;
     private String examWeight;
+
+    public Module(){}
 
     public Module(Integer moduleID, String moduleTitle, String courseworkWeight, String examWeight) {
         super();

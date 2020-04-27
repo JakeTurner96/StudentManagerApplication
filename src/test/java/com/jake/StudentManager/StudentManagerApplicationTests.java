@@ -1,21 +1,21 @@
-package com.jake.StudentManager;
-
+//package com.jake.StudentManager;
+//
 //import com.jake.StudentManager.services.ModuleService;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+//import org.junit.jupiter.api.MethodOrderer;
+//import org.junit.jupiter.api.Order;
 //import com.jake.StudentManager.pojo.Module;
-import com.jake.StudentManager.pojo.Student;
-import com.jake.StudentManager.services.StudentService;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.context.SpringBootTest;
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest
-class StudentManagerApplicationTests {
-
+//import com.jake.StudentManager.pojo.Student;
+//import com.jake.StudentManager.services.StudentService;
+//import org.junit.jupiter.api.TestMethodOrder;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import java.time.LocalDate;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@SpringBootTest
+//class StudentManagerApplicationTests {
+//
 //	static StudentService studentService = new StudentService();
 //	static ModuleService moduleService = new ModuleService();
 //	static Student student;
@@ -48,4 +48,4 @@ class StudentManagerApplicationTests {
 //		studentService.updateStudent(student, updatedStudent);
 //		assertEquals(updatedStudent, studentService.getStudent(1));
 //	}
-}
+//}

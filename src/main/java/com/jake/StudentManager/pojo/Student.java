@@ -2,31 +2,33 @@ package com.jake.StudentManager.pojo;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Student{
 
     @Id
-    private Integer studentID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int studentID;
     private String courseTitle;
     private String name;
     private LocalDate dateOfBirth;
-    @Embedded
     @ElementCollection
-    private List<Module> modules;
+    @CollectionTable(joinColumns = @JoinColumn(name = "studentID"))
+    private List<Module> moduleList = new ArrayList<>();
 
-    protected Student(){}
+    public Student(){}
 
-    public Student( Integer studentID, String courseTitle, String name, LocalDate dateOfBirth) {
+    public Student(String courseTitle, String name, LocalDate dateOfBirth, List<Module> moduleList) {
         super();
-        this.studentID = studentID;
         this.courseTitle = courseTitle;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
+        this.moduleList = moduleList;
     }
 
-    public Integer getStudentID() {
+    public int getStudentID() {
         return this.studentID;
     }
 
@@ -43,7 +45,7 @@ public class Student{
     }
 
     public List<Module> getModuleList(){
-        return modules;
+        return moduleList;
     }
 
     @Override
@@ -53,6 +55,7 @@ public class Student{
                 ", courseTitle='" + courseTitle + '\'' +
                 ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", moduleList=" + moduleList +
                 '}';
     }
 }

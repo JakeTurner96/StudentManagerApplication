@@ -5,7 +5,9 @@ import com.jake.StudentManager.pojo.Student;
 import com.jake.StudentManager.services.ModuleService;
 import com.jake.StudentManager.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -16,12 +18,14 @@ public class StudentManagerController {
     @Autowired
     private ModuleService moduleService;
 
+
+    //Student operations//
     @GetMapping("/students")
     public List<Student> getAllStudents(){
         return studentService.getStudentList();
     }
 
-    @GetMapping("/student/{studentID}")
+    @GetMapping("/students/{studentID}")
     public Student getStudent(@PathVariable int studentID){
         return studentService.getStudent(studentID);
     }
@@ -41,11 +45,18 @@ public class StudentManagerController {
         studentService.removeStudent(studentService.getStudent(studentID));
     }
 
+    //Module operations//
     @PostMapping("/student/module/{studentID}")
     public void assignModule(@RequestBody Module module, @PathVariable int studentID){
-        moduleService.assignModule(studentService.getStudent(studentID), module);
+
     }
 
+
+//    @GetMapping("/students/modules/{studentID}")
+//    public List<Module> getAllModules(@PathVariable int studentID){
+//        return studentService.getStudent(studentID).getModuleList();
+//    }
+//
 //    @PutMapping("/student/{studentID}/module/{moduleID}")
 //    public void updateModule(@RequestBody Module newModule, @PathVariable int studentID, @PathVariable int moduleID){
 //        Student studentTarget = studentService.getStudent(studentID);

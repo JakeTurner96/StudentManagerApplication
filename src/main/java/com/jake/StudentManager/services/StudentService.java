@@ -2,13 +2,10 @@ package com.jake.StudentManager.services;
 
 import com.jake.StudentManager.exceptions.StudentAlreadyExistsException;
 import com.jake.StudentManager.exceptions.StudentNotFoundException;
-import com.jake.StudentManager.pojo.Module;
 import com.jake.StudentManager.pojo.Student;
 import com.jake.StudentManager.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +15,14 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
-    private ModuleService moduleService;
+    public StudentService(){}
 
-
-    public StudentService(){
+    public Student getStudent(Integer ID){
+        if(!studentRepository.existsById(ID)){
+            throw new StudentNotFoundException("Student not found");
+        }else{
+            return studentRepository.findById(ID).orElse(null);
+        }
     }
 
     public void addStudent(Student student) throws StudentAlreadyExistsException {
@@ -52,10 +52,6 @@ public class StudentService {
 
     public boolean studentExists(Student student) {
         return studentRepository.existsById(student.getStudentID());
-    }
-
-    public Student getStudent(Integer ID){
-        return studentRepository.findById(ID).orElse(null);
     }
 
     public List<Student> getStudentList(){
