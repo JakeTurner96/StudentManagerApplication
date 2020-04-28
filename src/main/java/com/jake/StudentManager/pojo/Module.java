@@ -1,18 +1,18 @@
 package com.jake.StudentManager.pojo;
 
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
-@Embeddable
-public class Module{
+@Entity
+public class Module {
 
-    @NotNull
+    @Id
     private Integer moduleID;
     private String moduleTitle;
     private String courseworkWeight;
     private String examWeight;
 
-    public Module(){}
+    public Module() {
+    }
 
     public Module(Integer moduleID, String moduleTitle, String courseworkWeight, String examWeight) {
         super();
@@ -36,6 +36,22 @@ public class Module{
 
     public String getExamWeight() {
         return examWeight;
+    }
+
+    public void setModuleID(Integer moduleID) {
+        this.moduleID = moduleID;
+    }
+
+    public void setModuleTitle(String moduleTitle) {
+        this.moduleTitle = moduleTitle;
+    }
+
+    public void setCourseworkWeight(String courseworkWeight) {
+        this.courseworkWeight = courseworkWeight;
+    }
+
+    public void setExamWeight(String examWeight) {
+        this.examWeight = examWeight;
     }
 
     @Override

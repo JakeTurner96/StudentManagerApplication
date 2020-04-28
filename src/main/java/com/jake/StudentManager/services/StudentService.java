@@ -6,6 +6,7 @@ import com.jake.StudentManager.pojo.Student;
 import com.jake.StudentManager.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,13 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public StudentService(){}
+    public StudentService() {
+    }
 
-    public Student getStudent(Integer ID){
-        if(!studentRepository.existsById(ID)){
+    public Student getStudent(Integer ID) {
+        if (!studentRepository.existsById(ID)) {
             throw new StudentNotFoundException("Student not found");
-        }else{
+        } else {
             return studentRepository.findById(ID).orElse(null);
         }
     }
@@ -42,21 +44,30 @@ public class StudentService {
     }
 
     public void updateStudent(Student oldStudent, Student newStudent) throws StudentNotFoundException {
-        if (!studentExists(oldStudent)) {
-            throw new StudentNotFoundException("Student not found");
-        } else {
-            removeStudent(oldStudent);
-            addStudent(newStudent);
-        }
+        Student student = studentRepository.findById(oldStudent.getStudentID()).get();
+        student.setCourseTitle(newStudent.getCourseTitle());
+        student.setDateOfBirth(newStudent.getDateOfBirth());
+        student.setName(newStudent.getName());
+        studentRepository.save(student);
     }
 
     public boolean studentExists(Student student) {
         return studentRepository.existsById(student.getStudentID());
     }
 
-    public List<Student> getStudentList(){
+    public List<Student> getStudentList() {
         List<Student> students = new ArrayList<>();
         studentRepository.findAll().forEach(students::add);
+        return students;
+    }
+
+    public List<Student> getStudentsByPrefix(String s) {
+        List<Student> students = new ArrayList<>();
+        studentRepository.findAll().forEach(student -> {
+            if (student.getName().startsWith(s)) {
+                students.add(student);
+            }
+        });
         return students;
     }
 }

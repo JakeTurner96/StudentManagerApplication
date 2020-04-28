@@ -6,19 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Student{
+public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "student_id")
     private int studentID;
     private String courseTitle;
     private String name;
     private LocalDate dateOfBirth;
-    @ElementCollection
-    @CollectionTable(joinColumns = @JoinColumn(name = "studentID"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "student_id")
     private List<Module> moduleList = new ArrayList<>();
 
-    public Student(){}
+    public Student() {
+    }
 
     public Student(String courseTitle, String name, LocalDate dateOfBirth, List<Module> moduleList) {
         super();
@@ -44,8 +46,20 @@ public class Student{
         return dateOfBirth;
     }
 
-    public List<Module> getModuleList(){
+    public List<Module> getModuleList() {
         return moduleList;
+    }
+
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     @Override
