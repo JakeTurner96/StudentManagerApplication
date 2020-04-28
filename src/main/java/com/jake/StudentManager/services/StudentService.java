@@ -7,11 +7,14 @@ import com.jake.StudentManager.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class StudentService {
+public class StudentService implements Comparator<Student> {
 
     @Autowired
     private StudentRepository studentRepository;
@@ -23,6 +26,7 @@ public class StudentService {
         if (!studentRepository.existsById(ID)) {
             throw new StudentNotFoundException("Student not found");
         } else {
+            System.out.println(studentRepository.findById(ID).get().getTotalExamWeight());
             return studentRepository.findById(ID).orElse(null);
         }
     }
@@ -61,7 +65,7 @@ public class StudentService {
         return students;
     }
 
-    public List<Student> getStudentsByPrefix(String s) {
+    public List<Student> getStudentsByLetter(String s) {
         List<Student> students = new ArrayList<>();
         studentRepository.findAll().forEach(student -> {
             if (student.getName().startsWith(s)) {
@@ -69,5 +73,25 @@ public class StudentService {
             }
         });
         return students;
+    }
+
+    public List<Student> getStudentByExamWeight(){
+        List<Student> students = new ArrayList<>();
+        studentRepository.findAll().forEach(students::add);
+
+        Integer max = Collections.max(students, this::compare).getTotalExamWeight();
+
+        List<Student> maxStudents = new ArrayList<>();
+        studentRepository.findAll().forEach(student -> {
+            if(student.getTotalExamWeight() == max){
+                maxStudents.add(student);
+            }
+        });
+        return maxStudents;
+    }
+
+    @Override
+    public int compare(Student s1, Student s2) {
+        return s1.getTotalExamWeight().compareTo(s2.getTotalExamWeight());
     }
 }

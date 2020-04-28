@@ -9,7 +9,7 @@ import java.util.List;
 public class Student {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     private int studentID;
     private String courseTitle;
@@ -28,6 +28,10 @@ public class Student {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.moduleList = moduleList;
+    }
+
+    public Integer getTotalExamWeight(){
+       return moduleList.stream().mapToInt(Module::getExamWeight).sum();
     }
 
     public int getStudentID() {

@@ -6,15 +6,16 @@ import javax.persistence.*;
 public class Module {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer moduleID;
     private String moduleTitle;
-    private String courseworkWeight;
-    private String examWeight;
+    private Integer courseworkWeight;
+    private Integer examWeight;
 
     public Module() {
     }
 
-    public Module(Integer moduleID, String moduleTitle, String courseworkWeight, String examWeight) {
+    public Module(Integer moduleID, String moduleTitle, Integer courseworkWeight, Integer examWeight) {
         super();
         this.moduleID = moduleID;
         this.moduleTitle = moduleTitle;
@@ -30,11 +31,11 @@ public class Module {
         return moduleTitle;
     }
 
-    public String getCourseworkWeight() {
+    public Integer getCourseworkWeight() {
         return courseworkWeight;
     }
 
-    public String getExamWeight() {
+    public Integer getExamWeight() {
         return examWeight;
     }
 
@@ -46,11 +47,11 @@ public class Module {
         this.moduleTitle = moduleTitle;
     }
 
-    public void setCourseworkWeight(String courseworkWeight) {
+    public void setCourseworkWeight(Integer courseworkWeight) {
         this.courseworkWeight = courseworkWeight;
     }
 
-    public void setExamWeight(String examWeight) {
+    public void setExamWeight(Integer examWeight) {
         this.examWeight = examWeight;
     }
 

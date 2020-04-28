@@ -30,7 +30,7 @@ public class StudentManagerController {
 
     @GetMapping("/students/{letter}")
     public List<Student> getByLetter(@PathVariable String letter) {
-        return studentService.getStudentsByPrefix(letter);
+        return studentService.getStudentsByLetter(letter);
     }
 
     @PostMapping("/students/add")
@@ -48,11 +48,15 @@ public class StudentManagerController {
         studentService.removeStudent(studentService.getStudent(studentID));
     }
 
+    @GetMapping("/student/get")
+    public List<Student> getStudentByExamWeight() {
+        return studentService.getStudentByExamWeight();
+    }
+
     //Module operations//
     @PostMapping("/student/module/assign/{studentID}")
     public void assignModule(@RequestBody Module module, @PathVariable int studentID) {
         moduleService.assignModule(studentService.getStudent(studentID), module);
-
     }
 
     @DeleteMapping("/students/{studentID}/module/{moduleID}")
@@ -61,18 +65,4 @@ public class StudentManagerController {
         Module targetModule = moduleService.getModule(targetStudent, moduleID);
         moduleService.removeModule(targetStudent, targetModule);
     }
-
-//    @GetMapping("/students/modules/{studentID}")
-//    public List<Module> getAllModules(@PathVariable int studentID){
-//        return studentService.getStudent(studentID).getModuleList();
-//    }
-
-//    @PutMapping("/student/{studentID}/module/{moduleID}")
-//    public void updateModule(@RequestBody Module newModule, @PathVariable int studentID, @PathVariable int moduleID){
-//        Student studentTarget = studentService.getStudent(studentID);
-//        Module moduleTarget = moduleService.getModule(studentTarget, moduleID);
-//        moduleService.updateModule(studentTarget, moduleTarget, newModule);
-//    }
-//
-
 }
