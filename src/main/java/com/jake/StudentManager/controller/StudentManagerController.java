@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class StudentManagerController {
@@ -19,18 +20,23 @@ public class StudentManagerController {
 
     //Student operations//
     @GetMapping("/students")
-    public List<Student> getAllStudents() {
-        return studentService.getStudentList();
+    public Set<Student> getAllStudents() {
+        return studentService.getStudentSet();
     }
 
-    @GetMapping("/student/get/{studentID}")
+    @GetMapping("/students/get/{studentID}")
     public Student getStudent(@PathVariable int studentID) {
         return studentService.getStudent(studentID);
     }
 
     @GetMapping("/students/{letter}")
-    public List<Student> getByLetter(@PathVariable String letter) {
+    public Set<Student> getByLetter(@PathVariable String letter) {
         return studentService.getStudentsByLetter(letter);
+    }
+
+    @GetMapping("/students/get/exam")
+    public List<Student> getStudentByExamWeight() {
+        return studentService.getStudentByExamWeight();
     }
 
     @PostMapping("/students/add")
@@ -38,7 +44,7 @@ public class StudentManagerController {
         studentService.addStudent(student);
     }
 
-    @PutMapping("/student/update/{studentID}")
+    @PutMapping("/students/update/{studentID}")
     public void updateStudent(@RequestBody Student student, @PathVariable int studentID) {
         studentService.updateStudent(studentService.getStudent(studentID), student);
     }
@@ -48,21 +54,30 @@ public class StudentManagerController {
         studentService.removeStudent(studentService.getStudent(studentID));
     }
 
-    @GetMapping("/student/get")
-    public List<Student> getStudentByExamWeight() {
-        return studentService.getStudentByExamWeight();
+    //Module operations//
+    @GetMapping("/students/get/module")
+    public Set<Module> getAllModules() {
+        return moduleService.getModuleSet();
     }
 
-    //Module operations//
-    @PostMapping("/student/module/assign/{studentID}")
-    public void assignModule(@RequestBody Module module, @PathVariable int studentID) {
-        moduleService.assignModule(studentService.getStudent(studentID), module);
+    @GetMapping("/students/get/module/{moduleID}")
+    public Module getModule(@PathVariable int moduleID) {
+        return moduleService.getModule(moduleID);
+    }
+
+    @PostMapping("/students/{studentID}/module/{moduleID}/assign")
+    public void assignExistingModule(@PathVariable int studentID, @PathVariable int moduleID) {
+        moduleService.assignExistingModule(studentID, moduleID);
+    }
+
+    @PostMapping("/students/{studentID}/module/assign")
+    public void assignNewModule(@RequestBody Module module, @PathVariable int studentID) {
+        moduleService.assignNewModule(studentID, module);
     }
 
     @DeleteMapping("/students/{studentID}/module/{moduleID}")
-    public void deleteModule(@PathVariable int studentID, @PathVariable int moduleID) {
-        Student targetStudent = studentService.getStudent(studentID);
-        Module targetModule = moduleService.getModule(targetStudent, moduleID);
-        moduleService.removeModule(targetStudent, targetModule);
+    public void removeStudentModule(@PathVariable int studentID, @PathVariable int moduleID) {
+        moduleService.removeStudentModule(studentID, moduleID);
     }
+
 }

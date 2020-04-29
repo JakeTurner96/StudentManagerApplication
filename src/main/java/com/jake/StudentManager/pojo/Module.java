@@ -3,10 +3,11 @@ package com.jake.StudentManager.pojo;
 import javax.persistence.*;
 
 @Entity
-public class Module {
+public class Module implements Comparable<Module> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = false)
     private Integer moduleID;
     private String moduleTitle;
     private Integer courseworkWeight;
@@ -63,5 +64,10 @@ public class Module {
                 ", courseworkWeight='" + courseworkWeight + '\'' +
                 ", examWeight='" + examWeight + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Module module) {
+        return module.getModuleID();
     }
 }

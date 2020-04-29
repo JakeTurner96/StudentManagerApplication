@@ -2,11 +2,11 @@ package com.jake.StudentManager.pojo;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
-public class Student {
+public class Student implements Comparable<Student>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,23 +15,23 @@ public class Student {
     private String courseTitle;
     private String name;
     private LocalDate dateOfBirth;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "student_id")
-    private List<Module> moduleList = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "student_modules", joinColumns = {@JoinColumn(name = "student_id")}, inverseJoinColumns = {@JoinColumn(name = "module_id")})
+    private Set<Module> moduleSet = new TreeSet<>();
 
     public Student() {
     }
 
-    public Student(String courseTitle, String name, LocalDate dateOfBirth, List<Module> moduleList) {
+    public Student(String courseTitle, String name, LocalDate dateOfBirth, Set<Module> moduleSet) {
         super();
         this.courseTitle = courseTitle;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
-        this.moduleList = moduleList;
+        this.moduleSet = moduleSet;
     }
 
     public Integer getTotalExamWeight(){
-       return moduleList.stream().mapToInt(Module::getExamWeight).sum();
+        return moduleSet.stream().mapToInt(Module::getExamWeight).sum();
     }
 
     public int getStudentID() {
@@ -50,8 +50,8 @@ public class Student {
         return dateOfBirth;
     }
 
-    public List<Module> getModuleList() {
-        return moduleList;
+    public Set<Module> getModuleSet() {
+        return moduleSet;
     }
 
     public void setCourseTitle(String courseTitle) {
@@ -73,7 +73,12 @@ public class Student {
                 ", courseTitle='" + courseTitle + '\'' +
                 ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", moduleList=" + moduleList +
+                ", moduleSet=" + moduleSet +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Student student) {
+        return student.getStudentID();
     }
 }

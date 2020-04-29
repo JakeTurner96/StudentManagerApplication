@@ -7,17 +7,16 @@ import com.jake.StudentManager.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.image.AreaAveragingScaleFilter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import javax.persistence.EntityManager;
+import java.util.*;
 
 @Service
 public class StudentService implements Comparator<Student> {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     public StudentService() {
     }
@@ -29,6 +28,32 @@ public class StudentService implements Comparator<Student> {
             System.out.println(studentRepository.findById(ID).get().getTotalExamWeight());
             return studentRepository.findById(ID).orElse(null);
         }
+    }
+
+    public Set<Student> getStudentSet() {
+        Set<Student> students = new TreeSet<>();
+        studentRepository.findAll().forEach(students::add);
+        return students;
+    }
+
+    public Set<Student> getStudentsByLetter(String s) {
+        return studentRepository.findAllStudentsByLetter(s);
+    }
+
+    public List<Student> getStudentByExamWeight() {
+        List<Student> list = new ArrayList<>();
+        studentRepository.findAll().forEach(list::add);
+
+        int max = list.stream().max(this::compare).get().getTotalExamWeight();
+
+        List<Student> maxList = new ArrayList<>();
+        list.forEach(student -> {
+            if(student.getTotalExamWeight() == max){
+                maxList.add(student);
+            }
+        });
+
+        return maxList;
     }
 
     public void addStudent(Student student) throws StudentAlreadyExistsException {
@@ -57,37 +82,6 @@ public class StudentService implements Comparator<Student> {
 
     public boolean studentExists(Student student) {
         return studentRepository.existsById(student.getStudentID());
-    }
-
-    public List<Student> getStudentList() {
-        List<Student> students = new ArrayList<>();
-        studentRepository.findAll().forEach(students::add);
-        return students;
-    }
-
-    public List<Student> getStudentsByLetter(String s) {
-        List<Student> students = new ArrayList<>();
-        studentRepository.findAll().forEach(student -> {
-            if (student.getName().startsWith(s)) {
-                students.add(student);
-            }
-        });
-        return students;
-    }
-
-    public List<Student> getStudentByExamWeight(){
-        List<Student> students = new ArrayList<>();
-        studentRepository.findAll().forEach(students::add);
-
-        Integer max = Collections.max(students, this::compare).getTotalExamWeight();
-
-        List<Student> maxStudents = new ArrayList<>();
-        studentRepository.findAll().forEach(student -> {
-            if(student.getTotalExamWeight() == max){
-                maxStudents.add(student);
-            }
-        });
-        return maxStudents;
     }
 
     @Override
